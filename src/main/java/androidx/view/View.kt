@@ -21,12 +21,13 @@ package androidx.view
 import android.graphics.Bitmap
 import android.support.annotation.Px
 import android.support.annotation.RequiresApi
+import android.support.annotation.StringRes
 import android.support.v4.view.ViewCompat
 import android.support.v4.widget.NestedScrollView
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.animation.Animation
+
 import android.view.animation.Transformation
 import androidx.graphics.applyCanvas
 
@@ -86,6 +87,17 @@ inline fun View.doOnPreDraw(crossinline action: (view: View) -> Unit) {
             return true
         }
     })
+}
+
+/**
+ * Sends [AccessibilityEvent] of type [AccessibilityEvent.TYPE_ANNOUNCEMENT].
+ *
+ * @see View.announceForAccessibility
+ */
+@RequiresApi(16)
+inline fun View.announceForAccessibility(@StringRes resource: Int) {
+    val announcement = resources.getString(resource)
+    announceForAccessibility(announcement)
 }
 
 /**
@@ -252,7 +264,6 @@ inline var View.isGone: Boolean
         visibility = if (value) View.GONE else View.VISIBLE
     }
 
-<<<<<<< HEAD
 fun View.expand() {
     expand(-1, null, null, null)
 }
@@ -364,7 +375,7 @@ fun View.collapse(duration: Long, listener: OnAnimationEndListener?) {
 fun View?.show(b: Boolean?) {
     this?.visibility = if (b == true) View.VISIBLE else View.GONE
 }
-=======
+
 /**
  * Executes [block] with the View's layoutParams and reassigns the layoutParams with the
  * updated version.
@@ -389,4 +400,3 @@ inline fun <reified T : ViewGroup.LayoutParams> View.updateLayoutParams(block: T
     block(params)
     layoutParams = params
 }
->>>>>>> Move updateLayoutParams from ViewGroup to View (#400)
